@@ -3,7 +3,7 @@
 client_id = "aef40ed7e167d2792d50f42492b61c85"
 name = "we-c-list"
 handle = "we-c-list"
-application_url = "https://dow-ampland-dem-tue.trycloudflare.com"
+application_url = "https://machine-worldcat-either-hit.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://dow-ampland-dem-tue.trycloudflare.com/auth/callback",
-  "https://dow-ampland-dem-tue.trycloudflare.com/auth/shopify/callback",
-  "https://dow-ampland-dem-tue.trycloudflare.com/api/auth/callback"
+  "https://machine-worldcat-either-hit.trycloudflare.com/auth/callback",
+  "https://machine-worldcat-either-hit.trycloudflare.com/auth/shopify/callback",
+  "https://machine-worldcat-either-hit.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

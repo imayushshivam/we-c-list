@@ -10,10 +10,10 @@ import {
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 
-export default function AdditionalPage() {
+export default function PricingPage() {
   return (
     <Page>
-      <TitleBar title="Additional page" />
+      <TitleBar title="App Subscriptions" />
       <Layout>
         <Layout.Section>
           <Card>
