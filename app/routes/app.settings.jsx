@@ -30,7 +30,7 @@ export async function loader() {
   }; */
 
   let settings = await db.settings.findFirst(); //this will get the data from the database.
-  console.log("settings:", settings);
+  console.log("settings ---:", settings);
 
   return json(settings);
 }
