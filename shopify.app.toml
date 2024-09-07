@@ -3,7 +3,7 @@
 client_id = "aef40ed7e167d2792d50f42492b61c85"
 name = "we-c-list"
 handle = "we-c-list"
-application_url = "https://gif-michelle-va-richard.trycloudflare.com"
+application_url = "https://spencer-ppc-al-leo.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://gif-michelle-va-richard.trycloudflare.com/auth/callback",
-  "https://gif-michelle-va-richard.trycloudflare.com/auth/shopify/callback",
-  "https://gif-michelle-va-richard.trycloudflare.com/api/auth/callback"
+  "https://spencer-ppc-al-leo.trycloudflare.com/auth/callback",
+  "https://spencer-ppc-al-leo.trycloudflare.com/auth/shopify/callback",
+  "https://spencer-ppc-al-leo.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
