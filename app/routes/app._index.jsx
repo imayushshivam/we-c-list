@@ -65,12 +65,12 @@ export default function Index() {
                   heading="Manage your wishlist products here"
                   action={{
                     content: "Learn more",
-                    url: "https://youtube.com/codeinspire",
+                    url: "https://youtube.com",
                     external: "true",
                   }}
                   secondaryAction={{
                     content: "Watch videos",
-                    url: "https://youtube.com/codeinspire",
+                    url: "https://youtube.com",
                     external: "true",
                   }}
                   image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
@@ -90,26 +90,26 @@ export default function Index() {
                   <BlockStack gap="200">
                     <InlineStack align="space-between">
                       <Text as="span" variant="bodyMd">
-                        Course content
+                        xyz
                       </Text>
                       <Link
-                        url="https://youtube.com/codeinspire"
+                        url="https://youtube.com"
                         target="_blank"
                         removeUnderline
                       >
-                        Codeinspire
+                        contentLink
                       </Link>
                     </InlineStack>
                     <InlineStack align="space-between">
                       <Text as="span" variant="bodyMd">
-                        Source code
+                        xyz
                       </Text>
                       <Link
-                        url="https://github.com/Hujjat"
+                        url="https://github.com"
                         target="_blank"
                         removeUnderline
                       >
-                        Github
+                        link
                       </Link>
                     </InlineStack>
 
@@ -181,16 +181,16 @@ export default function Index() {
                   </Text>
                   <List>
                     <List.Item>
-                      Build a
-                      <Link
-                        url="https://youtube.com/codeinspire"
+                      submit
+                      {/* <Link
+                        url="https://youtube.com"
                         target="_blank"
                         removeUnderline
                       >
                         {" "}
                         Wishlist app
-                      </Link>{" "}
-                      to get started
+                      </Link>*/}{" "}
+                      for review.
                     </List.Item>
                   </List>
                 </BlockStack>

@@ -14,7 +14,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { authenticate, MONTHLY_PLAN, ANNUAL_PLAN } from "../shopify.server";
 
-import { MobileAcceptMajor } from "@shopify/polaris-icons";
+import { CheckIcon } from "@shopify/polaris-icons";
 
 export async function loader({ request }) {
   const { billing } = await authenticate.admin(request);
@@ -144,7 +144,7 @@ export default function PricingPage() {
                       key={index}
                       items={[
                         {
-                          icon: MobileAcceptMajor,
+                          icon: CheckIcon,
                           description: feature,
                         },
                       ]}
