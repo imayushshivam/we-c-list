@@ -3,7 +3,7 @@
 client_id = "aef40ed7e167d2792d50f42492b61c85"
 name = "we-c-list"
 handle = "we-c-list"
-application_url = "https://waste-country-syndrome-appointment.trycloudflare.com"
+application_url = "https://slovenia-calendar-browsers-reliance.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://waste-country-syndrome-appointment.trycloudflare.com/auth/callback",
-  "https://waste-country-syndrome-appointment.trycloudflare.com/auth/shopify/callback",
-  "https://waste-country-syndrome-appointment.trycloudflare.com/api/auth/callback"
+  "https://slovenia-calendar-browsers-reliance.trycloudflare.com/auth/callback",
+  "https://slovenia-calendar-browsers-reliance.trycloudflare.com/auth/shopify/callback",
+  "https://slovenia-calendar-browsers-reliance.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
