@@ -3,7 +3,7 @@
 client_id = "aef40ed7e167d2792d50f42492b61c85"
 name = "we-c-list"
 handle = "we-c-list"
-application_url = "https://educational-admitted-burden-designed.trycloudflare.com"
+application_url = "https://we-c-list.onrender.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://educational-admitted-burden-designed.trycloudflare.com/auth/callback",
-  "https://educational-admitted-burden-designed.trycloudflare.com/auth/shopify/callback",
-  "https://educational-admitted-burden-designed.trycloudflare.com/api/auth/callback"
+  "https://we-c-list.onrender.com/auth/callback",
+  "https://we-c-list.onrender.com/auth/shopify/callback",
+  "https://we-c-list.onrender.com/api/auth/callback"
 ]
 
 [webhooks]
