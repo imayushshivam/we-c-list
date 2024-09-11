@@ -9,8 +9,8 @@ import {
   BlockStack,
   InlineGrid,
   TextField,
-  useBreakpoints,
-  Divider,
+  /* useBreakpoints,
+  Divider, */
   Button,
 } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
