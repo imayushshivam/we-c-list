@@ -1,7 +1,6 @@
 import { json } from "@remix-run/node";
 
 export const loader = async () => {
-  // Optionally load data or perform actions here
   return json({});
 };
 
