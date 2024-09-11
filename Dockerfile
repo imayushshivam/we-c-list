@@ -13,7 +13,7 @@ RUN npm ci --omit=dev && npm cache clean --force
 # Remove this line if you want to run CLI commands in your container.
 RUN npm remove @shopify/cli
 
-RUN npm install
+# RUN npm install
 
 COPY . .
 
