@@ -12,8 +12,8 @@ import {
   EmptyState,
   DataTable,
 } from "@shopify/polaris";
-import { authenticate } from "../shopify.server";
-import db from "../db.server";
+import { authenticate } from "../shopify.server.js";
+import db from "../db.server.js";
 import { useLoaderData } from "@remix-run/react";
 import { formatDistanceToNow, parseISO } from "date-fns";
 

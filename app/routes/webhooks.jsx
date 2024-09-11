@@ -1,6 +1,6 @@
-import { authenticate } from "../shopify.server";
-import db from "../db.server";
-import { verifyHmac } from "../shopify-webhook";
+import { authenticate } from "../shopify.server.js";
+import db from "../db.server.js";
+import { verifyHmac } from "../shopify-webhook.js";
 
 export const action = async ({ request }) => {
   try {
