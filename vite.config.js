@@ -51,8 +51,8 @@ export default defineConfig({
   ],
   build: {
     assetsInlineLimit: 0,
-    rollupOptions: {
-      external: ["../shopify.server.js"], // Exclude server-only modules from client bundle
-    },
+    /* rollupOptions: {
+      // external: ["../shopify.server.js"], // Exclude server-only modules from client bundle
+    }, */
   },
 });
