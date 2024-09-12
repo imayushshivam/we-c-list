@@ -18,7 +18,7 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('wishlist', () => ({
             init(){
-              fetch(this.appUrl + "/api222222/wishlist"+"?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}")
+              fetch(this.appUrl + "/api/wishlist"+"?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}")
                   .then(response => response.json())
                   .then(result => {
                       if(result.data.length > 0){
@@ -56,7 +56,7 @@
                   redirect: 'follow'
                 };
 
-                fetch(this.appUrl + "/api3333333/wishlist", requestOptions)
+                fetch(this.appUrl + "/api/wishlist", requestOptions)
                     .then(response => response.json())
                     .then(result => {
                         if(result.wishlisted){
