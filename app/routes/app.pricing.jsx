@@ -12,7 +12,7 @@ import {
 } from "@shopify/polaris";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { authenticate, MONTHLY_PLAN, ANNUAL_PLAN } from "../shopify.server.js";
+import { authenticate, MONTHLY_PLAN, ANNUAL_PLAN } from "../shopify.server";
 
 import { CheckIcon } from "@shopify/polaris-icons";
 
@@ -61,7 +61,7 @@ let planData = [
       "Basic analytics",
     ],
   },
-  {
+  /*  {
     title: "Pro",
     description: "Pro plan with advanced features",
     price: "10",
@@ -75,7 +75,7 @@ let planData = [
       "Priority support",
       "Advanced analytics",
     ],
-  },
+  }, */
 ];
 
 export default function PricingPage() {

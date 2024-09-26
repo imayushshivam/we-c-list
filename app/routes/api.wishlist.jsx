@@ -88,23 +88,45 @@
 // }
 
 import { json } from "@remix-run/node";
-import db from "../db.server.js";
+import db from "../db.server";
 import { cors } from "remix-utils/cors";
 
-export async function action({ request }) {
-  const method = request.method;
+// get request: accept request with request: customerId, shop, productId.
+// read database and return wishlist items for that customer.
+export async function loader({ request }) {
+  const url = new URL(request.url);
+  const customerId = url.searchParams.get("customerId");
+  const shop = url.searchParams.get("shop");
+  const productId = url.searchParams.get("productId");
 
-  // Handle preflight OPTIONS request
-  if (request.method === "OPTIONS") {
-    return new Response(null, {
-      headers: {
-        "Access-Control-Allow-Origin": "*", // Allow requests from any origin
-        "Access-Control-Allow-Methods": "POST, PATCH, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
+  if (!customerId || !shop || !productId) {
+    return json({
+      message: "Missing data. Required data: customerId, productId, shop",
+      method: "GET",
     });
   }
 
+  // If customerId, shop, productId is provided, return wishlist items for that customer.
+  const wishlist = await db.wishlist.findMany({
+    where: {
+      customerId: customerId,
+      shop: shop,
+      productId: productId,
+    },
+  });
+
+  const response = json({
+    ok: true,
+    message: "Success",
+    data: wishlist,
+  });
+
+  return cors(request, response);
+}
+
+// Expexted data comes from post request. If
+// customerID, productID, shop
+export async function action({ request }) {
   let data = await request.formData();
   data = Object.fromEntries(data);
   const customerId = data.customerId;
@@ -113,61 +135,59 @@ export async function action({ request }) {
   const _action = data._action;
 
   if (!customerId || !productId || !shop || !_action) {
-    const response = json({
-      message: "Missing Data. Required data: customerId, productId, shop",
+    return json({
+      message:
+        "Missing data. Required data: customerId, productId, shop, _action",
       method: _action,
-    });
-    return cors(request, response, {
-      origin: "*", // Allow from any origin
     });
   }
 
   let response;
+
   switch (_action) {
     case "CREATE":
-      await db.wishlist.create({
+      // Handle POST request logic here
+      // For example, adding a new item to the wishlist
+      const wishlist = await db.wishlist.create({
         data: {
           customerId,
           productId,
           shop,
         },
       });
+
       response = json({
         message: "Product added to wishlist",
         method: _action,
         wishlisted: true,
       });
-      return cors(request, response, {
-        origin: "*", // Allow from any origin
-      });
+      return cors(request, response);
 
     case "PATCH":
-      response = json({ message: "Success", method: "PATCH" });
-      return cors(request, response, {
-        origin: "*",
-      });
+      // Handle PATCH request logic here
+      // For example, updating an existing item in the wishlist
+      return json({ message: "Success", method: "Patch" });
 
     case "DELETE":
+      // Handle DELETE request logic here (Not tested)
+      // For example, removing an item from the wishlist
       await db.wishlist.deleteMany({
         where: {
-          customerId,
-          shop,
-          productId,
+          customerId: customerId,
+          shop: shop,
+          productId: productId,
         },
       });
+
       response = json({
-        message: "Product removed from wishlist",
+        message: "Product removed from your wishlist",
         method: _action,
         wishlisted: false,
       });
-      return cors(request, response, {
-        origin: "*", // Allow from any origin
-      });
+      return cors(request, response);
 
     default:
-      response = new Response("Method not allowed", { status: 405 });
-      return cors(request, response, {
-        origin: "*",
-      });
+      // Optional: handle other methods or return a method not allowed response
+      return new Response("Method Not Allowed", { status: 405 });
   }
 }
