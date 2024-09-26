@@ -1,4 +1,4 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import { json } from "@remix-run/node";
 import {
   Page,
@@ -12,8 +12,8 @@ import {
   EmptyState,
   DataTable,
 } from "@shopify/polaris";
-import { authenticate } from "../shopify.server.js";
-import db from "../db.server.js";
+import { authenticate } from "../shopify.server";
+import db from "../db.server";
 import { useLoaderData } from "@remix-run/react";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
@@ -65,12 +65,12 @@ export default function Index() {
                   heading="Manage your wishlist products here"
                   action={{
                     content: "Learn more",
-                    url: "https://youtube.com",
+                    url: "https://youtube.com/codeinspire",
                     external: "true",
                   }}
                   secondaryAction={{
                     content: "Watch videos",
-                    url: "https://youtube.com",
+                    url: "https://youtube.com/codeinspire",
                     external: "true",
                   }}
                   image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
@@ -90,26 +90,26 @@ export default function Index() {
                   <BlockStack gap="200">
                     <InlineStack align="space-between">
                       <Text as="span" variant="bodyMd">
-                        xyz
+                        Course content
                       </Text>
                       <Link
-                        url="https://youtube.com"
+                        url="https://youtube.com/codeinspire"
                         target="_blank"
                         removeUnderline
                       >
-                        contentLink
+                        Codeinspire
                       </Link>
                     </InlineStack>
                     <InlineStack align="space-between">
                       <Text as="span" variant="bodyMd">
-                        xyz
+                        Source code
                       </Text>
                       <Link
-                        url="https://github.com"
+                        url="https://github.com/Hujjat"
                         target="_blank"
                         removeUnderline
                       >
-                        link
+                        Github
                       </Link>
                     </InlineStack>
 
@@ -181,16 +181,16 @@ export default function Index() {
                   </Text>
                   <List>
                     <List.Item>
-                      submit
-                      {/* <Link
-                        url="https://youtube.com"
+                      Build a
+                      <Link
+                        url="https://youtube.com/codeinspire"
                         target="_blank"
                         removeUnderline
                       >
                         {" "}
                         Wishlist app
-                      </Link>*/}{" "}
-                      for review.
+                      </Link>{" "}
+                      to get started
                     </List.Item>
                   </List>
                 </BlockStack>
