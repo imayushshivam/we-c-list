@@ -1,13 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
-// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
-// enough when changing adapters.
-// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
 datasource db {
   provider = "sqlite"
   url      = "file:dev.sqlite"
@@ -31,19 +25,17 @@ model Session {
   emailVerified Boolean?  @default(false)
 }
 
-
 model Settings {
-  id            Int    @id @default(autoincrement())
-  name          String
-  description   String?
+  id          Int     @id @default(autoincrement())
+  shop        String? @unique
+  name        String
+  description String?
 }
 
-
-//created a wishlist model with relation to Session. Store session id in wishlist table with one to many relation
-model Wishlist{
-  id             Int      @id @default(autoincrement())
-  customerId     String?
-  productId      String?
-  shop           String?
-  createdAt      DateTime @default(now())
+model Wishlist {
+  id         Int      @id @default(autoincrement())
+  customerId String?
+  productId  String?
+  shop       String?
+  createdAt  DateTime @default(now())
 }
