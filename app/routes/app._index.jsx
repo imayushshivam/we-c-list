@@ -62,20 +62,26 @@ export default function Index() {
                 />
               ) : (
                 <EmptyState
-                  heading="Manage your wishlist products here"
-                  action={{
+                  heading="Manage your wishlist products here." /* action={{
                     content: "Learn more",
-                    url: "https://youtube.com/codeinspire",
+                    url: "https://youtube.com",
                     external: "true",
                   }}
                   secondaryAction={{
                     content: "Watch videos",
-                    url: "https://youtube.com/codeinspire",
+                    url: "https://youtube.com",
                     external: "true",
-                  }}
+                  }} */
                   image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
                 >
-                  <p>You don't have any products in your wishlist yet.</p>
+                  <Text as="h2" variant="headingMd">
+                    You don't have any products in your wishlist yet.
+                  </Text>
+                  <p>
+                    Currently store owner are able to see the ID of product and
+                    customer here . if The customer click wishlist button appear
+                    below the product.{" "}
+                  </p>
                 </EmptyState>
               )}
             </Card>
@@ -85,112 +91,64 @@ export default function Index() {
               <Card>
                 <BlockStack gap="200">
                   <Text as="h2" variant="headingMd">
-                    App template specs
+                    Installation Guide
                   </Text>
                   <BlockStack gap="200">
-                    <InlineStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Course content
-                      </Text>
-                      <Link
-                        url="https://youtube.com/codeinspire"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        Codeinspire
-                      </Link>
-                    </InlineStack>
-                    <InlineStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Source code
-                      </Text>
-                      <Link
-                        url="https://github.com/Hujjat"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        Github
-                      </Link>
-                    </InlineStack>
-
-                    <InlineStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Framework
-                      </Text>
-                      <Link
-                        url="https://remix.run"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        Remix
-                      </Link>
-                    </InlineStack>
-                    <InlineStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Database
-                      </Text>
-                      <Link
-                        url="https://www.prisma.io/"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        Prisma
-                      </Link>
-                    </InlineStack>
-                    <InlineStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Interface
-                      </Text>
-                      <span>
-                        <Link
-                          url="https://polaris.shopify.com"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          Polaris
-                        </Link>
-                        {", "}
-                        <Link
-                          url="https://shopify.dev/docs/apps/tools/app-bridge"
-                          target="_blank"
-                          removeUnderline
-                        >
-                          App Bridge
-                        </Link>
-                      </span>
-                    </InlineStack>
-                    <InlineStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        API
-                      </Text>
-                      <Link
-                        url="https://shopify.dev/docs/api/admin-graphql"
-                        target="_blank"
-                        removeUnderline
-                      >
-                        GraphQL API
-                      </Link>
-                    </InlineStack>
+                    <Text as="p" variant="bodyMd">
+                      Follow these steps to install the We-C-List app in your
+                      Shopify store:
+                    </Text>
+                    <BlockStack gap="100">
+                      <List>
+                        <List.Item>
+                          <Text as="p" variant="bodyMd">
+                            Search for "<strong>we-c-list</strong>" in the
+                            Shopify App Store.
+                          </Text>
+                        </List.Item>
+                        <List.Item>
+                          <Text as="p" variant="bodyMd">
+                            Click on "Install" to add the app to your store.
+                          </Text>
+                        </List.Item>
+                        <List.Item>
+                          <Text as="p" variant="bodyMd">
+                            Open the customization settings of your store.
+                          </Text>
+                        </List.Item>
+                        <List.Item>
+                          <Text as="p" variant="bodyMd">
+                            Navigate to the product page and find the block
+                            inside the template from the left custom settings of
+                            your app.
+                          </Text>
+                        </List.Item>
+                      </List>
+                    </BlockStack>
                   </BlockStack>
                 </BlockStack>
               </Card>
+
               <Card>
                 <BlockStack gap="200">
                   <Text as="h2" variant="headingMd">
-                    Next steps
+                    Beta Version
                   </Text>
                   <List>
                     <List.Item>
-                      Build a
-                      <Link
-                        url="https://youtube.com/codeinspire"
+                      This app is currently in beta version.{" "}
+                      {/* <Link
+                        url="https://youtube.com"
                         target="_blank"
                         removeUnderline
                       >
                         {" "}
                         Wishlist app
-                      </Link>{" "}
-                      to get started
+                      </Link>{" "} */}
+                    </List.Item>
+                    <List.Item>
+                      After the succesfful implementation of this app. we gonna
+                      launch more new plugin{" "}
                     </List.Item>
                   </List>
                 </BlockStack>
