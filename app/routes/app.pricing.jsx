@@ -89,7 +89,7 @@ export default function PricingPage() {
         title="Disclaimer"
         illustration="https://cdn.shopify.com/s/files/1/0583/6465/7734/files/tag.png?v=1705280535"
         primaryAction={{
-          content: "To Support this app",
+          content: "",
           url: "/app/cancel",
         }}
       >
