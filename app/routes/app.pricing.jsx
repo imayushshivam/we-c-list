@@ -86,21 +86,25 @@ export default function PricingPage() {
     <Page>
       <ui-title-bar title="Pricing" />
       <CalloutCard
-        title="Change your plan"
+        title="Disclaimer"
         illustration="https://cdn.shopify.com/s/files/1/0583/6465/7734/files/tag.png?v=1705280535"
         primaryAction={{
-          content: "Cancel Plan",
+          content: "To Support this app",
           url: "/app/cancel",
         }}
       >
-        {plan.name == "Monthly subscription" ? (
+        <Text as="h4" variant="headingMd">
+          This is a beta feature. so currently we are not offering any paid
+          plans.
+        </Text>
+        {/* {plan.name == "Monthly subscription" ? (
           <p>You're currently on pro plan. All features are unlocked.</p>
         ) : (
           <p>
             You're currently on free plan. Upgrade to pro to unlock more
             features.
           </p>
-        )}
+        )} */}
       </CalloutCard>
 
       <div style={{ margin: "0.5rem 0" }}>
