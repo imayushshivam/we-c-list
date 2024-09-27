@@ -5,6 +5,7 @@
     "build": "remix vite:build",
     "dev": "shopify app dev",
     "config:link": "shopify app config link",
+    "clean": "rimraf ./build",
     "generate": "shopify app generate",
     "deploy": "shopify app deploy",
     "config:use": "shopify app config use",
@@ -49,7 +50,11 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.4",
+
     "prisma": "^5.20.0",
+
+    "rimraf": "^6.0.1",
+
     "typescript": "^5.2.2",
     "vite": "^5.1.3"
   },

@@ -2,9 +2,7 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-// Related: https://github.com/remix-run/remix/issues/2835#issuecomment-1144102176
-// Replace the HOST env var with SHOPIFY_APP_URL so that it doesn't break the remix server. The CLI will eventually
-// stop passing in HOST, so we can remove this workaround after the next major release.
+// Adjusting environment variables for Shopify App URL
 if (
   process.env.HOST &&
   (!process.env.SHOPIFY_APP_URL ||
@@ -14,6 +12,7 @@ if (
   delete process.env.HOST;
 }
 
+// Determine host for HMR
 const host = new URL(process.env.SHOPIFY_APP_URL || "http://localhost")
   .hostname;
 let hmrConfig;
@@ -34,25 +33,33 @@ if (host === "localhost") {
   };
 }
 
+// Vite configuration
 export default defineConfig({
   server: {
     port: Number(process.env.PORT || 3000),
     hmr: hmrConfig,
     fs: {
-      // See https://vitejs.dev/config/server-options.html#server-fs-allow for more information
+      // Allow serving files from these directories
       allow: ["app", "node_modules"],
     },
   },
   plugins: [
     remix({
-      ignoredRouteFiles: ["**/.*"],
+      ignoredRouteFiles: ["**/.*"], // Ignore files that start with a dot
     }),
-    tsconfigPaths(),
+    tsconfigPaths(), // Resolve TypeScript paths
   ],
   build: {
-    assetsInlineLimit: 0,
-    /* rollupOptions: {
-      // external: ["../shopify.server.js"], // Exclude server-only modules from client bundle
-    }, */
+    assetsInlineLimit: 0, // Disable asset inlining
+    rollupOptions: {
+      // Externalize Node.js built-ins to avoid issues in the browser
+      external: [
+        "node:crypto",
+        "node:stream",
+        "node:assert",
+        "node:buffer",
+        "node:zlib",
+      ],
+    },
   },
 });
