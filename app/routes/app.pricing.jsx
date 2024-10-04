@@ -85,7 +85,7 @@ export default function PricingPage() {
   return (
     <Page>
       <ui-title-bar title="Pricing" />
-      <CalloutCard
+      {/* <CalloutCard
         title="Disclaimer"
         illustration="https://cdn.shopify.com/s/files/1/0583/6465/7734/files/tag.png?v=1705280535"
         primaryAction={{
@@ -94,18 +94,23 @@ export default function PricingPage() {
         }}
       >
         <Text as="h4" variant="headingMd">
-          This is a beta feature. so currently we are not offering any paid
-          plans.
+          
         </Text>
-        {/* {plan.name == "Monthly subscription" ? (
+        {plan.name == "Monthly subscription" ? (
           <p>You're currently on pro plan. All features are unlocked.</p>
         ) : (
           <p>
             You're currently on free plan. Upgrade to pro to unlock more
             features.
           </p>
-        )} */}
-      </CalloutCard>
+        )}
+      </CalloutCard> */}
+      <Card>
+        <Text as="h2" variant="bodyMd">
+          This is a beta feature. so currently we are not offering any paid
+          plans.
+        </Text>
+      </Card>
 
       <div style={{ margin: "0.5rem 0" }}>
         <Divider />
