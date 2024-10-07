@@ -86,27 +86,43 @@
 //   //unreachable code
 //   /* return json({ message: "Success" }); */
 // }
-
 import { json } from "@remix-run/node";
-import db from "../db.server";
+import db from "../db.server.js";
 import { cors } from "remix-utils/cors";
 
-// get request: accept request with request: customerId, shop, productId.
-// read database and return wishlist items for that customer.
+// This ensures that all responses have the proper CORS headers
+const corsOptions = {
+  origin: "*",
+  methods: "GET, POST, PATCH, DELETE, OPTIONS",
+  headers: "Content-Type",
+};
+
+// Handle GET requests to return wishlist items for a customer
 export async function loader({ request }) {
+  // Handle preflight OPTIONS request
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
   const url = new URL(request.url);
   const customerId = url.searchParams.get("customerId");
   const shop = url.searchParams.get("shop");
   const productId = url.searchParams.get("productId");
 
   if (!customerId || !shop || !productId) {
-    return json({
+    const response = json({
       message: "Missing data. Required data: customerId, productId, shop",
       method: "GET",
     });
+    return cors(request, response, corsOptions);
   }
 
-  // If customerId, shop, productId is provided, return wishlist items for that customer.
   const wishlist = await db.wishlist.findMany({
     where: {
       customerId: customerId,
@@ -121,12 +137,21 @@ export async function loader({ request }) {
     data: wishlist,
   });
 
-  return cors(request, response);
+  return cors(request, response, corsOptions);
 }
 
-// Expexted data comes from post request. If
-// customerID, productID, shop
+// Handle POST, PATCH, and DELETE requests to manipulate wishlist items
 export async function action({ request }) {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
   let data = await request.formData();
   data = Object.fromEntries(data);
   const customerId = data.customerId;
@@ -135,19 +160,18 @@ export async function action({ request }) {
   const _action = data._action;
 
   if (!customerId || !productId || !shop || !_action) {
-    return json({
+    const response = json({
       message:
         "Missing data. Required data: customerId, productId, shop, _action",
       method: _action,
     });
+    return cors(request, response, corsOptions);
   }
 
   let response;
 
   switch (_action) {
     case "CREATE":
-      // Handle POST request logic here
-      // For example, adding a new item to the wishlist
       const wishlist = await db.wishlist.create({
         data: {
           customerId,
@@ -161,16 +185,14 @@ export async function action({ request }) {
         method: _action,
         wishlisted: true,
       });
-      return cors(request, response);
+      return cors(request, response, corsOptions);
 
     case "PATCH":
-      // Handle PATCH request logic here
-      // For example, updating an existing item in the wishlist
-      return json({ message: "Success", method: "Patch" });
+      // Update wishlist item logic
+      response = json({ message: "Success", method: "PATCH" });
+      return cors(request, response, corsOptions);
 
     case "DELETE":
-      // Handle DELETE request logic here (Not tested)
-      // For example, removing an item from the wishlist
       await db.wishlist.deleteMany({
         where: {
           customerId: customerId,
@@ -184,10 +206,10 @@ export async function action({ request }) {
         method: _action,
         wishlisted: false,
       });
-      return cors(request, response);
+      return cors(request, response, corsOptions);
 
     default:
-      // Optional: handle other methods or return a method not allowed response
-      return new Response("Method Not Allowed", { status: 405 });
+      response = new Response("Method Not Allowed", { status: 405 });
+      return cors(request, response, corsOptions);
   }
 }
