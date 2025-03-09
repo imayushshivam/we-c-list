@@ -2,7 +2,9 @@ FROM node:18-alpine
 
 RUN apk update && apk add --no-cache openssl
 
-EXPOSE 3000
+# Change EXPOSE to use PORT env var with default to 3000
+ENV PORT=3000
+EXPOSE $PORT
 
 # Recommended: Change working directory to a non-root path for better security
 WORKDIR /app
