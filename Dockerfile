@@ -22,7 +22,7 @@ COPY . /app
 
 RUN npm run build
 
-RUN npm run setup
+RUN npx prisma generate
 
 # Add a healthcheck for the database connection
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD node -e "const {PrismaClient} = require('@prisma/client'); const p = new PrismaClient(); p.$connect().then(() => process.exit(0)).catch(() => process.exit(1))"
