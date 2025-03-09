@@ -2,7 +2,7 @@ import { authenticate } from "../shopify.server";
 import db from "../db.server";
 
 export const action = async ({ request }) => {
-  const { topic, shop, session, admin, payload } =
+  const { topic, shop, session, admin } =
     await authenticate.webhook(request);
 
   if (!admin) {
@@ -15,11 +15,14 @@ export const action = async ({ request }) => {
       if (session) {
         await db.session.deleteMany({ where: { shop } });
       }
-
       break;
     case "CUSTOMERS_DATA_REQUEST":
     case "CUSTOMERS_REDACT":
     case "SHOP_REDACT":
+      // Instead of throwing 404s, log that we received these webhooks
+      console.log(`Received ${topic} webhook for ${shop}`);
+      // These webhooks will be handled by their specific route handlers
+      break;
     default:
       throw new Response("Unhandled webhook topic", { status: 404 });
   }

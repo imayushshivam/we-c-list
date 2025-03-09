@@ -16,63 +16,76 @@
 
 </div>
 
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+  integrity="sha384-lVzEfD1vVMJnk2Xg+Y+U5ZZTMvM2TTgpT8nhvjlm5AWdoMwL3ZQgI/fKF2fDjM8o"
+  crossorigin="anonymous"></script>
 
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('wishlist', () => ({
             init(){
+              this.appUrl = this.getAppUrl();
+              
+              // Prevent errors when customer is not logged in
+              if ("{{ customer.id }}" === "") {
+                return;
+              }
+              
               fetch(this.appUrl + "api/wishlist"+"?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}")
-                  .then(response => response.json())
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  })
                   .then(result => {
-                      if(result.data.length > 0){
+                      if(result.data && result.data.length > 0){
                         this.wishlisted = true;
                       }
                   })
-                  .catch(error => console.log('error', error));
+                  .catch(error => {
+                    console.error('Error checking wishlist status:', error);
+                  });
             },
             wishlisted: false,
             appUrl: "https://we-c-list.onrender.com/",
+            getAppUrl() {
+              // Production URL
+              return "https://we-c-list.onrender.com/";
+            },
             addToWishlist() {
-                // TODO: send data to database save wishlist
                 {%  unless customer  %}
-                  alert('Please login to add to wishlist');
+                  window.location.href = '{{ routes.account_login_url }}?checkout_url={{ request.path }}';
                   return;
                 {% endunless %}
-                // console.log('Adding to wishlist:', { customerId: "{{ customer.id }}", productId: "{{ product.id }}" });
                 
-  
-                var formdata = new FormData();
+                const formdata = new FormData();
                 formdata.append("customerId", "{{ customer.id }}");
                 formdata.append("productId", "{{ product.id }}");
                 formdata.append("shop", "{{ shop.permanent_domain }}");
-                formdata.append("_action", "CREATE");
+                formdata.append("_action", this.wishlisted ? "DELETE" : "CREATE");
   
-                // If product is already in wishlist, remove it
-                if(this.wishlisted){
-                  this.wishlisted = false;
-                  // update formdata _action to delete
-                  formdata.set("_action", "DELETE");
-                }
-  
-                var requestOptions = {
+                const requestOptions = {
                   method: 'POST',
                   body: formdata,
                   redirect: 'follow'
                 };
   
                 fetch(this.appUrl + "api/wishlist", requestOptions)
-                    .then(response => response.json())
-                    .then(result => {
-                        if(result.wishlisted){
-                          this.wishlisted = true;
-                        }else{
-                          this.wishlisted = false;
-                        }
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                      }
+                      return response.json();
                     })
-                    .catch(error => console.log('error', error));
-  
-  
+                    .then(result => {
+                        this.wishlisted = result.wishlisted;
+                    })
+                    .catch(error => {
+                      console.error('Error updating wishlist:', error);
+                    });
             }
         }))
     })
