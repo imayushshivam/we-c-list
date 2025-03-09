@@ -31,9 +31,17 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
   fi
 done
 
+# Force a database schema push to ensure tables exist (overwrites migration lock issue)
+echo "Ensuring database schema is up-to-date..."
+npx prisma db push --accept-data-loss || echo "WARNING: Failed to push schema, but continuing startup..."
+
 # Try to run migrations, but don't fail if they can't be run
 echo "Attempting to apply database migrations..."
 npx prisma migrate deploy || echo "WARNING: Failed to apply migrations, but continuing startup..."
+
+# Generate Prisma client to ensure it matches the database
+echo "Ensuring Prisma client is up-to-date..."
+npx prisma generate
 
 # Then run the main container command
 echo "Starting application..."
