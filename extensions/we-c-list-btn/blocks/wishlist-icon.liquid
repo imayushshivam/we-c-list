@@ -1,9 +1,13 @@
 <div class="wishlist-inspire__icon" x-data="wishlist">
 
-  {% comment %} debounce ensure to send the req only one , {% endcomment %}
   <button type="button" @click.debounce="addToWishlist()">
-    <svg class="wishlist-inspire__icon--svg" viewBox="0 0 24 24" stroke-width="2" stroke="#000" :fill="wishlisted ? '#000': '#fff' ">
-      <path d="M12 21.35l-1.45-1.32C5.4 15.73 2 12.27 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.77-3.4 7.23-8.55 11.53L12 21.35z"/>
+    <svg
+      class="wishlist-inspire__icon--svg"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="#000"
+      :fill="wishlisted ? '{{ block.settings.colour }}': '#fff' ">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.73 2 12.27 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.77-3.4 7.23-8.55 11.53L12 21.35z" />
     </svg>
     {% if block.settings.text != blank %}
       <span class="wishlist-inspire__icon--text">{{ block.settings.text }}</span>
@@ -12,62 +16,76 @@
 
 </div>
 
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+  integrity="sha384-lVzEfD1vVMJnk2Xg+Y+U5ZZTMvM2TTgpT8nhvjlm5AWdoMwL3ZQgI/fKF2fDjM8o"
+  crossorigin="anonymous"></script>
 
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('wishlist', () => ({
             init(){
+              this.appUrl = this.getAppUrl();
+              
+              // Prevent errors when customer is not logged in
+              if ("{{ customer.id }}" === "") {
+                return;
+              }
+              
               fetch(this.appUrl + "api/wishlist"+"?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}")
-                  .then(response => response.json())
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                  })
                   .then(result => {
-                      if(result.data.length > 0){
+                      if(result.data && result.data.length > 0){
                         this.wishlisted = true;
                       }
                   })
-                  .catch(error => console.log('error', error));
+                  .catch(error => {
+                    console.error('Error checking wishlist status:', error);
+                  });
             },
             wishlisted: false,
-            appUrl: "https://apps.brimo.in/",
+            appUrl: "https://we-c-list.onrender.com/",
+            getAppUrl() {
+              // Production URL
+              return "https://we-c-list.onrender.com/";
+            },
             addToWishlist() {
-                // TODO: send data to database save wishlist
                 {%  unless customer  %}
-                  // If customer is not login, show an alert to login
-                  alert('Please login to add to wishlist');
+                  window.location.href = '{{ routes.account_login_url }}?checkout_url={{ request.path }}';
                   return;
                 {% endunless %}
-
-                var formdata = new FormData();
+                
+                const formdata = new FormData();
                 formdata.append("customerId", "{{ customer.id }}");
                 formdata.append("productId", "{{ product.id }}");
                 formdata.append("shop", "{{ shop.permanent_domain }}");
-                formdata.append("_action", "CREATE");
-
-                // If product is already in wishlist, remove it
-                if(this.wishlisted){
-                  this.wishlisted = false;
-                  // update formdata _action to delete
-                  formdata.set("_action", "DELETE");
-                }
-
-                var requestOptions = {
+                formdata.append("_action", this.wishlisted ? "DELETE" : "CREATE");
+  
+                const requestOptions = {
                   method: 'POST',
                   body: formdata,
                   redirect: 'follow'
                 };
-
+  
                 fetch(this.appUrl + "api/wishlist", requestOptions)
-                    .then(response => response.json())
-                    .then(result => {
-                        if(result.wishlisted){
-                          this.wishlisted = true;
-                        }else{
-                          this.wishlisted = false;
-                        }
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                      }
+                      return response.json();
                     })
-                    .catch(error => console.log('error', error));
-
-
+                    .then(result => {
+                        this.wishlisted = result.wishlisted;
+                    })
+                    .catch(error => {
+                      console.error('Error updating wishlist:', error);
+                    });
             }
         }))
     })
@@ -75,12 +93,12 @@
 
 
 <style>
-  .wishlist-inspire__icon{
+  .wishlist-inspire__icon {
     display: flex;
     justify-content: center;
     max-width: 44rem;
   }
-  .wishlist-inspire__icon button{
+  .wishlist-inspire__icon button {
     background: none;
     border: none;
     padding: 0;
@@ -90,35 +108,33 @@
     gap: 0.5rem;
     align-items: center;
   }
-  .wishlist-inspire__icon--svg{
+  .wishlist-inspire__icon--svg {
     width: 2rem;
     height: 2rem;
   }
 
 </style>
 {% schema %}
-{
-  "name": "Wishlist icon",
-  "target": "section",
-  "settings": [
-    {
-      "type": "product",
-      "id": "product",
-      "label": "product",
-      "autofill": true
-    },
-    {
-      "type": "text",
-      "id": "text",
-      "label": "Text",
-      "default": "Add to wishlist"
-    },
-    {
-      "type": "color",
-      "id": "colour",
-      "label": "Icon Colour",
-      "default": "#ff0000"
-    }
-  ]
-}
+  {
+    "name": "Wishlist icon",
+    "target": "section",
+    "settings": [
+      {
+        "type": "product",
+        "id": "product",
+        "label": "product",
+        "autofill": true
+      }, {
+        "type": "text",
+        "id": "text",
+        "label": "Text",
+        "default": "Add to wishlist"
+      }, {
+        "type": "color",
+        "id": "colour",
+        "label": "Icon Colour",
+        "default": "#ff0000"
+      }
+    ]
+  }
 {% endschema %}

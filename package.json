@@ -5,13 +5,15 @@
     "build": "remix vite:build",
     "dev": "shopify app dev",
     "config:link": "shopify app config link",
+    "clean": "rimraf ./build",
     "generate": "shopify app generate",
     "deploy": "shopify app deploy",
     "config:use": "shopify app config use",
     "env": "shopify app env",
-    "start": "remix-serve ./build/server/index.js",
-    "docker-start": "npm run setup && npm run start",
-    "setup": "prisma generate && prisma migrate deploy",
+    "start": "node server.js",
+    "docker-start": "npm run start",
+    "setup": "prisma generate",
+    "db-migrate": "prisma migrate deploy",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "shopify": "shopify",
     "prisma": "prisma",
@@ -23,7 +25,7 @@
     "node": "^18.20 || ^20.10 || >=21.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.11.0",
+    "@prisma/client": "^5.20.0",
     "@remix-run/dev": "^2.7.1",
     "@remix-run/node": "^2.7.1",
     "@remix-run/react": "^2.7.1",
@@ -33,12 +35,13 @@
     "@shopify/shopify-app-remix": "^3.0.2",
     "@shopify/shopify-app-session-storage-prisma": "^5.0.2",
     "date-fns": "^3.6.0",
+    "express": "^4.18.2",
     "isbot": "^5.1.0",
-    "prisma": "^5.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "remix-utils": "^7.6.0",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite-tsconfig-paths": "^5.0.1",
+    "wait-on": "^8.0.2"
   },
   "devDependencies": {
     "@remix-run/eslint-config": "^2.7.1",
@@ -50,6 +53,8 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.4",
+    "prisma": "^5.20.0",
+    "rimraf": "^6.0.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.3"
   },
